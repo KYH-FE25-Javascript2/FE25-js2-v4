@@ -1,0 +1,45 @@
+🟢 Nivå 1
+- Lägg till en ny sida: Contact.jsx
+- Skapa en route: /contact
+- Lägg till Link i nav
+
+🟡 Nivå 2
+- Lägg till en sida: FAQ.jsx
+- Lägg till 2–3 frågor som vanlig text
+- Lägg till Link i nav
+- Testa 404 genom att skriva /random
+
+🔴 Nivå 3 (utforskande)
+Skapa två nya sidor
+
+Help.jsx
+
+Support.jsx
+
+Lägg till routes
+
+/help
+
+/support
+
+Experimentera med ordningen på routes
+
+Flytta path="*" högst upp
+
+Testa alla länkar
+
+Flytta tillbaka * längst ner
+
+Svara skriftligt (1–2 meningar):
+
+Vad händer när * ligger överst?
+
+Varför måste den ligga sist?
+
+-------------
+Reflektion & Q&A
+
+Diskussionsfrågor:
+- Varför är routing viktigt i större appar?
+- Vad är skillnaden på navigation och rendering?
+- Varför använder vi Link istället för `<a>`?
