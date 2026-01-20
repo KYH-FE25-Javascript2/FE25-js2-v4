@@ -1,0 +1,419 @@
+🧭 React fortsättning – React Router (proffsvarianten)
+
+⏰ Tid: 08.30–12.00
+📚 Kurs: JavaScript 2, 30 yhp
+📅 Vecka 4 – Onsdag: 2026-01-21
+🎓 Klass: FE25, KYH
+
+--------------------------------------------------
+--------------------------------------------------
+
+🎯 Lektionsmål
+
+Efter lektionen ska studenterna kunna:
+
+✅ Skapa dynamiska routes med URL-parametrar
+✅ Förstå och använda nested routes
+✅ Använda <Outlet /> för layouts
+✅ Förstå skillnaden mellan Link och NavLink
+✅ Navigera programmatiskt med useNavigate()
+✅ Förstå varför och när man använder useRoutes()
+✅ Strukturera routing i större SPA:er
+
+--------------------------------------------------
+--------------------------------------------------
+
+📝 Lektionsplanering (08.30–12.00)
+
+Inledning & repetition från tisdag
+Teori: avancerad routing
+
+Code-along: nested routes + Outlet
+
+Code-along: dynamiska routes & navigation
+
+
+Självständiga övningar och Handledning.
+
+Reflektion, Q&A + koppling till Examination B
+
+--------------------------------------------------
+--------------------------------------------------
+
+🧠 Inledning & repetition (talarmanus)
+
+🗣️
+“I går lärde vi oss grunderna: Routes, Route och Link.”
+
+🗣️
+“Vi byggde flera sidor – utan sidladdning.”
+
+🗣️
+“Idag tar vi nästa steg:
+👉 hur routing används i större och riktiga applikationer.”
+
+🧠
+“Det här är exakt den nivå ni behöver för examination B.”
+
+Mini-frågor (2 min):
+
+Vad gör <Routes>?
+
+Vad är skillnaden på navigation och rendering?
+
+Varför använder vi Link istället för <a>?
+
+--------------------------------------------------
+--------------------------------------------------
+
+🧠 Centrala begrepp (översikt)
+
+🔹 Dynamiska routes
+URL innehåller data
+/users/123
+
+🔹 Nested routes
+Routes inuti routes – delar layout
+
+🔹 Layout-komponent
+Gemensam struktur (navigation, header)
+
+🔹 Outlet
+Plats där child-routes renderas
+
+🔹 Programmatisk navigation
+Navigera via JavaScript
+
+--------------------------------------------------
+--------------------------------------------------
+
+💻 Code-along – React Router “proffsvarianten”
+
+🎯 Syfte:
+
+Visa hur routing skalas upp
+
+Introducera layout + nested routes
+
+Förstå hur URL:er kan innehålla data
+
+--------------------------------------------------
+
+🗣️
+“Nu bygger vi routing som man gör i riktiga projekt.”
+
+📂 Projektstruktur (utökad)
+src/
+├─ layouts/
+│  └─ MainLayout.jsx
+│
+├─ pages/
+│  ├─ Home.jsx
+│  ├─ About.jsx
+│  ├─ Users.jsx
+│  ├─ UserProfile.jsx
+│  └─ NotFound.jsx
+│
+├─ components/
+│  └─ Navigation.jsx
+│
+├─ App.jsx
+└─ main.jsx
+
+🗣️
+“Nu börjar vi tänka som man gör i större SPA:er.”
+
+"I större appar vill vi inte upprepa navigation och layout på varje sida."
+
+“Därför introducerar vi något som kallas layout-komponenter.”
+
+--------------------------------------------------
+
+🧩 STEG 1 – SKAPA NAVIGATION (NavLink)
+
+components/Navigation.jsx
+
+import { NavLink } from "react-router-dom";
+
+function Navigation() {
+  return (
+    <nav>
+      <NavLink to="/" end>Home</NavLink>
+      {" | "}
+      <NavLink to="/about">About</NavLink>
+      {" | "}
+      <NavLink to="/users">Users</NavLink>
+    </nav>
+  );
+}
+
+export default Navigation;
+
+
+🗣️ TALARMANUS
+“NavLink är Link med superkrafter.”
+
+“Den vet om länken är aktiv.”
+
+“React Router lägger automatiskt till en ‘active’-klass.”
+
+“Detta är perfekt för menyer.”
+
+🗣️
+“end betyder: matcha exakt.”
+
+“Utan end hade Home varit aktiv även på /about.”
+
+--------------------------------------------------
+
+🧩 Steg 2 – Layout + Outlet
+MainLayout.jsx
+
+import { Outlet } from "react-router-dom";
+import Navigation from "../components/Navigation";
+
+function MainLayout() {
+  return (
+    <>
+      <Navigation />
+      <main>
+        <Outlet />
+      </main>
+    </>
+  );
+}
+
+export default MainLayout;
+
+
+“Layouts är en av de viktigaste byggstenarna i större appar.”
+
+“En layout är inte en sida – det är ett skal runt sidor.”
+
+“Navigation renderas bara en gång.”
+
+“Navigationen ska alltid synas, men innehållet i mitten ska kunna bytas.”
+“Navigation är en återanvändbar UI-del – därför ska den ligga i components.”
+“Layouten sätter ihop strukturen, men äger inte detaljerna.”
+
+“Det är exakt det MainLayout gör.”
+
+🧠 OUTLET – VARFÖR?
+
+🗣️ TALARMANUS
+“Outlet är en platshållare.”
+
+“Det är här React Router stoppar in den route som matchar URL:en.”
+
+“Man kan tänka Outlet som:
+👉 ‘här ska barn-routen visas’.”
+
+“Utan Outlet finns det ingen plats för child/nested-routes.”
+
+--------------------------------------------------
+
+🧩 Steg 3 – Nested routes + INDEX ROUTE i App.jsx
+
+import { Routes, Route } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
+
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Users from "./pages/Users";
+import UserProfile from "./pages/UserProfile";
+import NotFound from "./pages/NotFound";
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route index element={<Home />} />
+        <Route path="about" element={<About />} />
+        <Route path="users" element={<Users />} />
+        <Route path="users/:id" element={<UserProfile />} />
+      </Route>
+
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+}
+
+export default App;
+
+🗣️ NESTED ROUTES
+
+“När vi nestar routes betyder det att routes delar layout.”
+
+“Allt som ligger inuti/under /-routen använder MainLayout.”
+
+“Navigationen laddas alltså inte om – bara innehållet i Outlet byts.”
+
+🧠 INDEX ROUTE
+
+<Route index element={<Home />} />
+
+🗣️ TALARMANUS
+“Index betyder: detta är startsidan för layouten.”
+
+“När URL:en exakt matchar / så visas Home.”
+
+“Index är alltså samma sak som path='' – men mycket tydligare.”
+
+“Det gör koden lättare att läsa och förstå.”
+
+🧠 VIKTIG REGEL – CHILD PATHS
+
+<Route path="about" element={<About />} />
+
+
+🗣️ TALARMANUS
+“Observera att child-paths inte börjar med /.”
+
+“about blir automatiskt /about eftersom den är barn till /.”
+
+“Om du skriver /about här – då bryter du nesting.”
+
+“Det här är ett vanligt nybörjarfel.”
+
+🔀 DYNAMISKA ROUTES (URL-PARAMETRAR)
+
+<Route path="users/:id" element={<UserProfile />} />
+
+
+🗣️ TALARMANUS
+“Här säger vi: URL:en innehåller data.”
+
+“:id betyder att det här är en variabel del av URL:en.”
+
+“/users/1
+/users/42
+/users/mandus”
+
+“Alla matchar samma route – men med olika id.”
+
+--------------------------------------------------
+
+🧩 Steg 4 – Dynamiska routes (useParams)
+UserProfile.jsx
+
+import { useParams } from "react-router-dom";
+
+function UserProfile() {
+  const { id } = useParams();
+
+  return <h2>User profile: {id}</h2>;
+}
+
+export default UserProfile;
+
+🗣️ TALARMANUS
+"URL:en innehåller data."
+
+“useParams läser data från URL:en.”
+
+“Det här är hur routing och data möts.”
+
+“URL:en styr vad som visas – utan extra state.”
+
+--------------------------------------------------
+
+🧩 Steg 5 – Programmatisk navigation - Users.jsx
+
+import { useNavigate } from "react-router-dom";
+
+function Users() {
+  const navigate = useNavigate();
+
+  return (
+    <>
+      <h2>Users</h2>
+      <button onClick={() => navigate("/users/123")}>
+        Go to user 123
+      </button>
+    </>
+  );
+}
+
+export default Users;
+
+🗣️ TALARMANUS
+
+“useNavigate används när navigation inte sker via klick på länk.”
+
+“Till exempel efter submit, login eller redirect.”
+
+“Detta ersätter window.location – men utan reload.”
+
+“useNavigate används efter events.”
+
+--------------------------------------------------
+
+🧠 SAMMANFATTNING
+
+“Layouts ger struktur.”
+
+“Outlet är platsen där child-routes visas.”
+
+“Nested routes betyder delad layout.”
+
+“Index är startsidan för layouten.”
+
+“URL:en kan innehålla data.”
+
+“NavLink används för menyer.”
+
+“useNavigate används för navigation via kod.”
+
+--------------------------------------------------
+--------------------------------------------------
+
+🧪 Självständiga övningar (15–20 min)
+
+🟢 Nivå 1
+
+Lägg till /contact i layouten
+
+Visa Contact-sidan via Outlet
+
+🟡 Nivå 2
+
+Skapa /products/:id
+
+Visa id från URL
+
+🔴 Nivå 3
+
+- Skapa en AdminLayout
+- Diskutera hur routing kan delas upp
+
+--------------------------------------------------
+
+Diskutera hur routing kan delas upp
+
+📢 Reflektion & Q&A
+
+Diskussionsfrågor:
+
+Varför är nested routes bättre än platta routes?
+
+När behövs useNavigate?
+
+Varför är Outlet viktig i större appar?
+
+--------------------------------------------------
+
+🧠 Sammanfattning 
+
+Nu har ni byggt routing som fungerar i riktiga SPA:er.”
+
+Routing skalar med struktur
+
+Layout + Outlet = nyckeln
+
+URL kan bära data
+
+React Router är ett verktyg – inte magi
+
+"Detta är exakt samma struktur ni ska använda i projekt och examination."
+
+“Nästa steg är att koppla routing ännu tydligare till data och API:er.”
