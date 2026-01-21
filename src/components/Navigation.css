@@ -1,0 +1,10 @@
+.active {
+  color: red;
+  font-weight: bold;
+  text-decoration: underline;
+}
+/* .pending {
+  color: yellow;
+  background-color: aqua;
+} */
+/* NavLink får propen isPending = true om man gör asycron data hämtning, så är isPending = true, då får NavLink .pending css:en  */

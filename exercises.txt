@@ -1,0 +1,28 @@
+🟢 Nivå 1
+
+Lägg till /contact i layouten
+
+Visa Contact-sidan via Outlet
+
+🟡 Nivå 2
+
+Skapa /products/:id
+
+Visa id från URL
+
+🔴 Nivå 3
+
+- Skapa en AdminLayout
+- Diskutera hur routing kan delas upp
+
+---------------
+
+Reflektion & Q&A
+
+Diskussionsfrågor:
+
+Varför är nested routes bättre än platta routes?
+
+När behövs useNavigate?
+
+Varför är Outlet viktig i större appar?
